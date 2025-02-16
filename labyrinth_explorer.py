@@ -1,13 +1,11 @@
-import matplotlib.pyplot as plt
 import numpy as np
 import heapq
-import time
-import matplotlib.colors as mcolors
 from loader import load_labyrinth
-from visualization import visualize_labyrinth
+from visualization import initialize_visualization, visualize_labyrinth, show_visualization
 
-def dijkstra(grid, visualize=True):
+def dijkstra(labyrinth, visualize=True):
     """Finds the shortest path in the labyrinth using Dijkstra’s algorithm with step visualization."""
+    grid = np.array(labyrinth)
     n, m = grid.shape
     start, end = None, None
 
@@ -36,12 +34,12 @@ def dijkstra(grid, visualize=True):
         '.': 1,   # Normal path
         'S': 1,   # Start
         'E': 1,   # Exit
-        '$': 0.5, # Treasure (reduces cost)
-        'T': 3,   # Trap (increases cost)
+        '*': 0.1, # Potion (reduces cost)
+        'M': 3,   # Monster (increases cost)
         '#': float('inf')  # Walls (impassable)
     }
 
-    plt.figure(figsize=(10, 10))  # Set figure size
+    initialize_visualization()
 
     while pq:
         current_cost, (x, y) = heapq.heappop(pq)
@@ -62,7 +60,7 @@ def dijkstra(grid, visualize=True):
 
         # **Visualize each step**
         if visualize:
-            visualize_labyrinth(grid, visited=visited)
+            visualize_labyrinth(grid, init=False, pause=0.01, visited=visited)
 
     # Backtrack to get the shortest path
     path = []
@@ -74,8 +72,7 @@ def dijkstra(grid, visualize=True):
     path.reverse()
 
     # Final visualization with the shortest path
-    visualize_labyrinth(grid, path=path, visited=visited)
-    plt.show()  # Ensure the last step is visible
+    visualize_labyrinth(grid, init=False, path=path, visited=visited)
     return path
 
 # Load labyrinth
@@ -83,5 +80,3 @@ grid = load_labyrinth()
 
 # Find the shortest path and visualize every step
 shortest_path = dijkstra(grid, visualize=True)
-
-print("✅ Shortest path found! Visualized step by step.")

@@ -8,7 +8,7 @@ def initialize_visualization():
 def show_visualization():
     plt.show()
 
-def visualize_labyrinth(labyrinth, path=None, init=True, pause=0):
+def visualize_labyrinth(labyrinth, init=True, pause=0, path=None, visited=None):
 
     grid = np.array(labyrinth)
     n, m = grid.shape
@@ -31,9 +31,14 @@ def visualize_labyrinth(labyrinth, path=None, init=True, pause=0):
     for i in range(n):
         for j in range(m):
             color = mcolors.to_rgb(color_map.get(grid[i, j], 'white'))
-            img[i, j] = color
+            img[i, j] = color    
 
-    # Highlight the shortest path
+    # Mark visited nodes in light gray
+    if visited:
+        for x, y in visited:
+            img[x, y] = mcolors.to_rgb('lightgray')
+
+    # Highlight the path in cyan
     if path:
         for x, y in path:
             img[x, y] = mcolors.to_rgb('cyan')
@@ -49,3 +54,5 @@ def visualize_labyrinth(labyrinth, path=None, init=True, pause=0):
         plt.pause(pause)
     else:
         plt.show()
+
+
