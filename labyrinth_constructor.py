@@ -7,7 +7,7 @@ def generate_labyrinth(n=100, m=100, trap_percent=10, treasure_percent=10, extra
     # Initialize grid with walls
     grid = [['#' for _ in range(m)] for _ in range(n)]
 
-    visualize_labyrinth(grid, init=False, pause=0.01)
+    visualize_labyrinth(grid, init=False, pause=0.001)
 
     # Random starting point
     # start_x, start_y = random.randrange(1, n-1, 2), random.randrange(1, m-1, 2)
@@ -15,7 +15,7 @@ def generate_labyrinth(n=100, m=100, trap_percent=10, treasure_percent=10, extra
     start_y = 1
     grid[start_x][start_y] = 'S'  # Mark start position    
 
-    visualize_labyrinth(grid, init=False, pause=0.01)
+    visualize_labyrinth(grid, init=False, pause=1)
 
     # List of wall candidates
     walls = [(start_x + dx, start_y + dy) for dx, dy in [(-2, 0), (2, 0), (0, -2), (0, 2)]
@@ -34,7 +34,7 @@ def generate_labyrinth(n=100, m=100, trap_percent=10, treasure_percent=10, extra
                 nx, ny = random.choice(neighbors)  # Pick a random connected path
                 grid[x][y] = '.'  # Open current cell
                 grid[(x + nx) // 2][(y + ny) // 2] = '.'  # Open passage
-                visualize_labyrinth(grid, init=False, pause=0.01)
+                #visualize_labyrinth(grid, init=False, pause=0.001)
 
                 # Add new walls to the list
                 walls.extend([(x + dx, y + dy) for dx, dy in [(-2, 0), (2, 0), (0, -2), (0, 2)]
@@ -44,7 +44,7 @@ def generate_labyrinth(n=100, m=100, trap_percent=10, treasure_percent=10, extra
     # Place exit in the bottom-right corner
     exit_x, exit_y = n - 2, m - 2
     grid[exit_x][exit_y] = 'E'
-    visualize_labyrinth(grid, init=False, pause=0.01)
+    visualize_labyrinth(grid, init=False, pause=1)
 
     # **Extra Step: Add random paths to create multiple routes**
     for _ in range(extra_paths):
@@ -58,7 +58,7 @@ def generate_labyrinth(n=100, m=100, trap_percent=10, treasure_percent=10, extra
                 nx, ny = random.choice(neighbors)
                 grid[(rx + nx) // 2][(ry + ny) // 2] = '.'
             
-            visualize_labyrinth(grid, init=False, pause=0.01)
+    visualize_labyrinth(grid, init=False, pause=1)
 
     # Add monsters ('M') and potions ('*')
     empty_cells = [(x, y) for x in range(n) for y in range(m) if grid[x][y] == '.']
@@ -67,11 +67,13 @@ def generate_labyrinth(n=100, m=100, trap_percent=10, treasure_percent=10, extra
 
     for x, y in random.sample(empty_cells, num_traps):
         grid[x][y] = 'M'  # Monster
-        visualize_labyrinth(grid, init=False, pause=0.01)
+    
+    visualize_labyrinth(grid, init=False, pause=1)
 
     for x, y in random.sample(empty_cells, num_treasures):
         grid[x][y] = '*'  # Potion
-        visualize_labyrinth(grid, init=False, pause=0.01)
+    
+    visualize_labyrinth(grid, init=False, pause=1)
 
     return grid
 
@@ -82,8 +84,8 @@ def save_labyrinth(grid, filename):
             f.write("".join(row) + "\n")
 
 # Generate and save the labyrinth
-n=21
-m=21
+n=99
+m=99
 initialize_visualization()
 labyrinth = generate_labyrinth(n, m)
 filename = f"labyrinth_{n}x{m}.txt"

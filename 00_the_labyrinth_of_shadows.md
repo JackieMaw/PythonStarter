@@ -1,7 +1,7 @@
 ### **Game Challenge: The Labyrinth of Shadows**  
 
 #### **Story**  
-You are an adventurer trapped in the **Labyrinth of Shadows**, a dungeon filled with traps, locked doors, and treasures. Your goal is to escape the labyrinth **with the most treasure** while avoiding deadly traps.  
+You are an adventurer trapped in the **Labyrinth of Shadows**, a dungeon filled with monsters and magic potions. Time is running out and you need to escape as soon as possible. Your goal is to escape the labyrinth **as soon as possible** while avoiding deadly traps.  
 
 #### **Game Rules**  
 - The labyrinth is represented as a **grid (N x M)** where each cell has a **cost** (representing danger or difficulty).  

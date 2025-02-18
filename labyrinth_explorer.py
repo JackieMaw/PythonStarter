@@ -1,24 +1,14 @@
 import numpy as np
 import heapq
 from loader import load_labyrinth
-from visualization import initialize_visualization, visualize_labyrinth, show_visualization
+from visualization import initialize_visualization, visualize_labyrinth
 
-def dijkstra(labyrinth, visualize=True):
+def dijkstra(labyrinth, visualize=False):
     """Finds the shortest path in the labyrinth using Dijkstra’s algorithm with step visualization."""
+
     grid = np.array(labyrinth)
     n, m = grid.shape
-    start, end = None, None
-
-    # Locate the start and exit positions
-    for i in range(n):
-        for j in range(m):
-            if grid[i, j] == 'S':
-                start = (i, j)
-            elif grid[i, j] == 'E':
-                end = (i, j)
-
-    if not start or not end:
-        raise ValueError("Labyrinth must contain both 'S' (start) and 'E' (exit).")
+    start, end = locate_start_and_end(grid, n, m)
 
     # Dijkstra's priority queue
     pq = [(0, start)]  # (cost, (x, y))
@@ -34,8 +24,8 @@ def dijkstra(labyrinth, visualize=True):
         '.': 1,   # Normal path
         'S': 1,   # Start
         'E': 1,   # Exit
-        '*': 0.1, # Potion (reduces cost)
-        'M': 3,   # Monster (increases cost)
+        '*': 0,   # Potion (reduces cost)
+        'M': 5,   # Monster (increases cost)
         '#': float('inf')  # Walls (impassable)
     }
 
@@ -60,7 +50,7 @@ def dijkstra(labyrinth, visualize=True):
 
         # **Visualize each step**
         if visualize:
-            visualize_labyrinth(grid, init=False, pause=0.01, visited=visited)
+            visualize_labyrinth(grid, init=False, pause=0.001, visited=visited)
 
     # Backtrack to get the shortest path
     path = []
@@ -72,11 +62,26 @@ def dijkstra(labyrinth, visualize=True):
     path.reverse()
 
     # Final visualization with the shortest path
-    visualize_labyrinth(grid, init=False, path=path, visited=visited)
+    visualize_labyrinth(grid, init=False, path=path, title=f"The Labyrinth of Shadows (shortest path = {current_cost} mins)")
     return path
+
+def locate_start_and_end(grid, n, m):
+    start, end = None, None
+
+    # Locate the start and exit positions
+    for i in range(n):
+        for j in range(m):
+            if grid[i, j] == 'S':
+                start = (i, j)
+            elif grid[i, j] == 'E':
+                end = (i, j)
+
+    if not start or not end:
+        raise ValueError("Labyrinth must contain both 'S' (start) and 'E' (exit).")
+    return start,end
 
 # Load labyrinth
 grid = load_labyrinth()
 
 # Find the shortest path and visualize every step
-shortest_path = dijkstra(grid, visualize=True)
+shortest_path = dijkstra(grid, visualize=False)

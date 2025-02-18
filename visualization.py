@@ -8,7 +8,7 @@ def initialize_visualization():
 def show_visualization():
     plt.show()
 
-def visualize_labyrinth(labyrinth, init=True, pause=0, path=None, visited=None):
+def visualize_labyrinth(labyrinth, init=True, pause=0, path=None, visited=None, title="The Labyrinth of Shadows"):
 
     grid = np.array(labyrinth)
     n, m = grid.shape
@@ -49,7 +49,7 @@ def visualize_labyrinth(labyrinth, init=True, pause=0, path=None, visited=None):
     plt.imshow(img)
     plt.xticks([])  # Remove X ticks
     plt.yticks([])  # Remove Y ticks
-    plt.title("The Labyrinth of Shadows")
+    plt.title(title)
     if pause > 0:
         plt.pause(pause)
     else:
